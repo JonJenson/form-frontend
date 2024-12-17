@@ -3,7 +3,7 @@ import { FormDataType } from "../lib/types";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const App: React.FC = () => {
+const FormComponent: React.FC = () => {
   const [formData, setFormData] = useState<FormDataType>({
     emp_name: "",
     emp_id: "",
@@ -24,12 +24,10 @@ const App: React.FC = () => {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.emp_phone.trim()) newErrors.emp_phone = "Phone number is required";
-    else if (isNaN(Number(formData.emp_phone))) newErrors.emp_phone = "Phone number should be integer";
+    if (isNaN(Number(formData.emp_phone))) newErrors.emp_phone = "Phone number should be integer";
     else if (formData.emp_phone.length != 10) newErrors.emp_phone = "Phone number should be exactly 10 digits";
 
-    if (!formData.emp_id.trim()) newErrors.emp_id = "Employee id is required";
-    else if (isNaN(Number(formData.emp_id))) newErrors.emp_id = "Employee ID should be an integer";
+    if (isNaN(Number(formData.emp_id))) newErrors.emp_id = "Employee ID should be an integer";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -42,7 +40,7 @@ const App: React.FC = () => {
       return;
     }
 
-    console.log("Form submitted successfully:", formData);
+    console.log("The created formData is:", formData);
     try {
       const res = await axios.post("https://form-backend-tuue.onrender.com/api", formData);
       if (res && res.status == 201) {
@@ -95,8 +93,8 @@ const App: React.FC = () => {
   };
 
   return (
-    <section className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-sm">
+    <section className="flex items-center justify-center min-h-screen bg-gray-300">
+      <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-sm md:max-w-lg ">
         <h1 className="text-center text-2xl flex justify-between font-bold text-gray-700 mb-6">
           Employee Registration
           <div onClick={handleReset} className="text-red-600 font-normal text-sm border-solid border-red-600 border rounded-lg p-1 hover:text-white hover:bg-red-600">Reset</div>
@@ -104,7 +102,7 @@ const App: React.FC = () => {
         
         <form onSubmit={handleSubmit} className="space-y-2">
           <div>
-            <label htmlFor="emp_name" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="emp_name" className=" text-sm font-medium text-gray-700">
               Name:
             </label>
             <input
@@ -113,19 +111,20 @@ const App: React.FC = () => {
               required
               value={formData.emp_name}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+              className="mt-1  w-full border border-gray-300 rounded-md p-2"
             />
           </div>
           <div>
-            <label htmlFor="emp_id" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="emp_id" className=" text-sm font-medium text-gray-700">
               Employee ID:
             </label>
             <input
               type="text"
               name="emp_id"
+              required
               value={formData.emp_id}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+              className="mt-1  w-full border border-gray-300 rounded-md p-2"
             />
             {Errors.emp_id && <p className="text-red-500 text-sm">{Errors.emp_id}</p>}
           </div>
@@ -144,20 +143,21 @@ const App: React.FC = () => {
           </div>
 
           <div>
-            <label htmlFor="emp_phone" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="emp_phone" className=" text-sm font-medium text-gray-700">
               Phone:
             </label>
             <input
               type="text"
               name="emp_phone"
+              required
               value={formData.emp_phone}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+              className="mt-1  w-full border border-gray-300 rounded-md p-2"
             />
             {Errors.emp_phone && <p className="text-red-500 text-sm">{Errors.emp_phone}</p>}
           </div>
           <div>
-            <label htmlFor="emp_role" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="emp_role" className="text-sm font-medium text-gray-700">
               Role:
             </label>
             <input
@@ -166,11 +166,11 @@ const App: React.FC = () => {
               required
               value={formData.emp_role}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+              className="mt-1  w-full border border-gray-300 rounded-md p-2"
             />
           </div>
           <div>
-            <label htmlFor="emp_doj" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="emp_doj" className="text-sm font-medium text-gray-700">
               Date of Joining:
             </label>
             <input
@@ -180,11 +180,11 @@ const App: React.FC = () => {
               required
               value={formData.emp_doj}
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+              className="mt-1  w-full border border-gray-300 rounded-md p-2"
             />
           </div>
           <div>
-            <label htmlFor="emp_role" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="emp_role" className=" text-sm font-medium text-gray-700">
               Department:
             </label>
             <select
@@ -192,7 +192,7 @@ const App: React.FC = () => {
               value={formData.emp_dept}
               required
               onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+              className="mt-1  w-full border border-gray-300 rounded-md p-2"
             >
               <option value="HR">HR</option>
               <option value="Engineering">Engineering</option>
@@ -201,7 +201,7 @@ const App: React.FC = () => {
           </div>
           <button
             type="submit"
-            className="w-full border-2 border-blue-500 text-blue-500 font-medium py-2 rounded-md hover:bg-blue-500 hover:text-white"
+            className="text-center w-full border-2 border-blue-500 text-blue-500 font-medium py-2 rounded-md hover:bg-blue-500 hover:text-white "
           >
             SUBMIT
           </button>
@@ -211,4 +211,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default FormComponent;

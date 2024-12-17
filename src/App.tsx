@@ -1,11 +1,11 @@
-import Form from "./components/form";
+import FormComponent from "./components/form";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const App: React.FC = () => {
   return (
     <>
-      <Form />
+      <FormComponent />
       <ToastContainer 
         position="top-left" 
         autoClose={3000} 
