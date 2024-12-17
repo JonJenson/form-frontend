@@ -46,6 +46,10 @@ const FormComponent: React.FC = () => {
       if (res && res.status == 201) {
         toast.success(res.data.success);
         console.log("Form submitted successfully", res.data.result);
+        setTimeout(() => {
+          handleReset();
+        }, 3000);
+        
       } else if (res && res.status == 200) {
         toast.warn(res.data.warning);
       } else {
@@ -74,6 +78,7 @@ const FormComponent: React.FC = () => {
       emp_id: "",
      emp_phone: "",
     });
+
     toast.warn("Form has been reset")
   }
 
